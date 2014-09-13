@@ -1,8 +1,0 @@
-#!/bin/bash
-# Sherlock specific config
-
-export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$HOME/bin
-
-alias brackets='node ~/node/brackets/commands.js'
-alias deploy="make -f ~/deploy/makefile"
-

@@ -14,13 +14,14 @@ source $ZSH/oh-my-zsh.sh
 alias ll="ls -lF --group-directories-first"
 
 export EDITOR="vim"
+export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$HOME/bin
 
 if [ -f ~/.zsh_more ]; then
     . ~/.zsh_more
 fi
 
-if [ -f ~/.thehub/scripts/welcome ]; then
-	. ~/.thehub/scripts/welcome
+if [ -f ~/.dotfiles/welcome ]; then
+	. ~/.dotfiles/welcome
 else
 	printf "You have not set up the screen selector yet...\n"
 fi

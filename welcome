@@ -1,0 +1,100 @@
+#!/bin/zsh
+# A simple screen selector.
+
+screen-select()
+{
+	local screens="$(screen -list | sed -n -e '/[0-9].[a-z]/p' | sed '/Socket/d')"
+	
+	printf "\n"
+	if [ -z $IS_FRONTEND_MACHINE ]; then
+		printf "b\tLaunch bash shell\n\t^ Choose this if you don't know what this menu is!\n"
+	fi
+	printf "c\tCreate a new session\n"
+	printf "s\tSSH to another server\n"
+	printf "q\tQuit\n"
+	
+	if [ -z "$screens" ]; then
+		local count=0
+	else
+		printf "\n"
+		local count="$(printf "%s\n" "$screens" | wc -l)"
+		printf "%s\n" "$screens" | awk '{print NR,$0}'
+	fi
+	
+	CHOICE=-1
+	while [ true ]; do
+		printf "\n"
+		if [ $count -gt 0 ]; then
+			printf "Select session [0-%d] or one of the options > " "$count"
+		else
+			printf "Select an option > "
+		fi
+		read CHOICE
+		if [ -n "$CHOICE" -a $CHOICE -eq $CHOICE -a $CHOICE -ge 0 -a $CHOICE -le $count 2>/dev/null ]; then
+			break
+		elif [ -z $IS_FRONTEND_MACHINE ] && [ "$CHOICE" = "b" ]; then
+			exec /bin/bash
+		elif [ "$CHOICE" = "s" ]; then
+			exec ssh-select
+		elif [ "$CHOICE" = "q" ]; then
+			exec /bin/false
+		else
+			CHOICE=0
+			break
+		fi 
+	done
+	
+	if [ $CHOICE -eq 0 ]; then
+		exec screen -S login
+	else
+		session=$(printf "%s\n" "$screens" | sed -n -e "$CHOICE p" | awk '{print $1}')
+		exec screen -Rd $session
+	fi
+}
+
+ssh-select()
+{
+	local servers="$(cat ~/.ssh/config | sed '/10.100.*/d' | sed -n '/^Host/p' | sort)"
+	
+	printf "\n"
+	
+	if [ -z "$servers" ]; then
+		printf "There are no SSH servers you can connect to.\n"
+		exec screen-select
+	fi
+	
+	local count="$(printf "%s\n" "$servers" | wc -l)"
+	if [ ! $count -gt 0 ]; then
+		printf "There are no SSH servers you can connect to.\n"
+		exec screen-select
+	fi
+	
+	printf "b Back to Welcome\n"
+	printf "d Different Server\n"
+	printf "q Quit\n"
+	printf "%s\n" "$servers" | awk '{print NR,$2}'
+	CHOICE=-1
+	while [ true ]; do
+		printf "\nSelect a server [1-%d] or one of the options > " "$count"
+		read CHOICE
+		if [ -n "$CHOICE" -a $CHOICE -eq $CHOICE -a $CHOICE -ge 0 -a $CHOICE -le $count 2>/dev/null ]; then
+			server=$(printf "%s\n" "$servers" | sed -n -e "$CHOICE p" | awk '{print $2}')
+			exec ssh $server
+		elif [ "$CHOICE" = "b" ]; then
+			exec screen-select
+		elif [ "$CHOICE" = "d" ]; then
+			printf "\n$ ssh "
+			read SSHCMD
+			ssh $SSHCMD
+			exec ssh-select
+		elif [ "$CHOICE" = "q" ]; then
+			exec /bin/false
+		fi
+	done
+}
+
+printf "Hello sir!\n"
+
+if [ -z "$STY" ]; then
+	exec screen-select
+fi
