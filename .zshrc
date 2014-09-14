@@ -13,7 +13,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias ll="ls -lF --group-directories-first"
 
-export EDITOR="vim"
+export EDITOR=vim
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$HOME/npm/bin:$HOME/bin
 
 if [ -f ~/.zsh_more ]; then
