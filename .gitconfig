@@ -1,5 +1,9 @@
+[alias]
+	deploy = "!bash ~/.dotfiles/git-deploy.sh"
+[core]
+	editor = vim
+[push]
+	default = simple
 [user]
 	email = james@jdrydn.com
 	name = jdrydn
-[push]
-	default = simple
