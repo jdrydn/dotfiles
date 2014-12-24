@@ -21,7 +21,7 @@ $ ssh-server aws-database2
 
 ----
 
-This requires a specific ini file containing the following:
+This requires a specific ini file in any generic folder containing the following:
 
 ```ini
 [name-of-server]
