@@ -46,7 +46,7 @@ working directory.
 
 Without any arguments, this script will output a list of the potential servers you can connect to:
 
-```sh
+```
 $ ssh-server
 List of servers to SSH to:
  [==]  name-of-server (root@some.ip.of.that.server with a password)
@@ -58,7 +58,7 @@ With a single argument, this script will execute the relevant SSH command. If a 
 provided!) then the command will execute instantly. If a password is provided the script will echo out the password for
 you to copy and paste!
 
-```sh
+```
 $ ssh-server name-of-server 
 root@some.ip.of.that.server with a password 'a1b2c3d4e5f6'
 root@12.345.678.9's password:
@@ -66,7 +66,7 @@ Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-37-generic x86_64)
 # root at name-of-server in ~ [20:14:23]
 ```
 
-```sh
+```
 $ ssh-server name-of-other-server
 some_user@name-of-other-server with a key
 Welcome to Ubuntu 14.04.1 LTS (GNU/Linux 3.13.0-37-generic x86_64)
