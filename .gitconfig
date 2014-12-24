@@ -2,6 +2,7 @@
 	deploy = "!bash ~/.dotfiles/git-deploy.sh"
 [core]
 	editor = vim
+	autocrlf = input
 [push]
 	default = simple
 [user]
