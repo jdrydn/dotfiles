@@ -56,7 +56,7 @@ List of servers to SSH to:
 
 With a single argument, this script will execute the relevant SSH command. If a key is provided (and I hope a key is 
 provided!) then the command will execute instantly. If a password is provided the script will echo out the password for
-you to copy and paste!
+you to copy and paste.
 
 ```
 $ ssh-server name-of-server 
