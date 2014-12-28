@@ -85,8 +85,7 @@ ssh-select()
 		elif [ "$CHOICE" = "d" ]; then
 			printf "\n$ ssh "
 			read SSHCMD
-			ssh $SSHCMD
-			exec ssh-select
+			eval "ssh $SSHCMD"
 		elif [ "$CHOICE" = "q" ]; then
 			exec /bin/false
 		fi
