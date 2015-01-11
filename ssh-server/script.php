@@ -52,10 +52,6 @@ final class Server
 		{
 			$this->key = $details["key"];
 
-			if ((substr($this->key, 0, 1) !== "/") || (substr($this->key, 0, 1) !== "~"))
-			{
-				$this->key = __DIR__ . "/" . $this->key;
-			}
 		}
 		elseif (!empty($details["pass"]))
 		{
@@ -83,6 +79,10 @@ final class Server
 	 */
 	public function toSshCommand()
 	{
+		if ((substr($this->key, 0, 1) !== "/") && (substr($this->key, 0, 1) !== "~"))
+		{
+			$this->key = PWD . "/" . $this->key;
+		}
 		return "ssh " . $this->user . "@" . $this->host . " " . (!empty($this->key) ? "~i " . $this->key : "");
 	}
 }
