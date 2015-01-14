@@ -83,7 +83,7 @@ final class Server
 		{
 			$this->key = PWD . "/" . $this->key;
 		}
-		return "ssh " . $this->user . "@" . $this->host . " " . (!empty($this->key) ? "~i " . $this->key : "");
+		return "ssh " . $this->user . "@" . $this->host . " " . (!empty($this->key) ? "-i " . $this->key : "");
 	}
 }
 

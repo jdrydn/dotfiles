@@ -8,8 +8,7 @@ CODE=$?
 if [ $CODE -eq 0 ]; then
 	CMD=$(RETURN_CMD=TRUE php script.php $DIR $1)
 	popd > /dev/null
-	# exec $CMD
-	echo $CMD
+	exec $CMD
 	pushd "$BASE_PATH" > /dev/null
 fi
 if [ $CODE -eq 1 ]; then
