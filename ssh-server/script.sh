@@ -1,19 +1,11 @@
 #!/bin/bash
 BASE_PATH=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-DIR=$(pwd)
-pushd "$BASE_PATH" > /dev/null
 
-php script.php $DIR $1
+php $BASE_PATH/script.php $(pwd)
 CODE=$?
-if [ $CODE -eq 0 ]; then
-	CMD=$(RETURN_CMD=TRUE php script.php $DIR $1)
-	popd > /dev/null
+if [ $CODE -ne 0 ]; then
+	CMD=$(php $BASE_PATH/script.php $(pwd) $CODE)
 	exec $CMD
-	pushd "$BASE_PATH" > /dev/null
+	exit $?
 fi
-if [ $CODE -eq 1 ]; then
-	CODE=0
-fi
-
-popd > /dev/null
-exit $CODE
+exit 1

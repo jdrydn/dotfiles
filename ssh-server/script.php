@@ -5,116 +5,26 @@
  * @link: http://jdrydn.com
  */
 namespace SSH_Server;
+
 /** @noinspection SpellCheckingInspection */
-define("FAIL", " \033[0;31;49m[==]\033[0m ");
+define("FAIL", " \033[0;31;49m[==]\033[0m");
 /** @noinspection SpellCheckingInspection */
-define("GOOD", " \033[0;32;49m[==]\033[0m ");
+define("GOOD", " \033[0;32;49m[==]\033[0m");
 /** @noinspection SpellCheckingInspection */
-define("WARN", " \033[0;33;49m[==]\033[0m ");
+define("WARN", " \033[0;33;49m[==]\033[0m");
 /** @noinspection SpellCheckingInspection */
-define("TASK", " \033[0;34;49m[==]\033[0m ");
+define("TASK", " \033[0;34;49m[==]\033[0m");
 /** @noinspection SpellCheckingInspection */
-define("USER", " \033[1;1;49m[==]\033[0m ");
-
-class ConfigException extends \Exception
-{
-}
-
-final class Server
-{
-	private $host;
-	private $key;
-	private $name;
-	private $password;
-	private $user;
-
-	/**
-	 * @param string $name
-	 * @param array $details
-	 * @throws ConfigException
-	 */
-	public function __construct($name, array $details)
-	{
-		$this->name = $name;
-		$this->host = $details["host"];
-		if (empty($details["host"]))
-		{
-			throw new ConfigException("No host for '{$this->name}'.");
-		}
-
-		$this->user = $details["user"];
-		if (empty($details["user"]))
-		{
-			throw new ConfigException("No user for '{$this->name}'.");
-		}
-
-		if (!empty($details["key"]))
-		{
-			$this->key = $details["key"];
-
-		}
-		elseif (!empty($details["pass"]))
-		{
-			$this->password = $details["pass"];
-		}
-		else
-		{
-			throw new ConfigException("No password / key file for '{$this->name}'.");
-		}
-	}
-
-	/**
-	 * @param bool $reveal
-	 * @return string
-	 */
-	public function toDescriptiveString($reveal = false)
-	{
-		return $this->user . "@" . $this->host . " with a " .
-		($reveal === true ? (!empty($this->key) ? "key located at {$this->key}" : "password '{$this->password}'")
-			: (!empty($this->key) ? "key" : "password"));
-	}
-
-	/**
-	 * @return string
-	 */
-	public function toSshCommand()
-	{
-		if ((substr($this->key, 0, 1) !== "/") && (substr($this->key, 0, 1) !== "~"))
-		{
-			$this->key = PWD . "/" . $this->key;
-		}
-		return "ssh " . $this->user . "@" . $this->host . " " . (!empty($this->key) ? "-i " . $this->key : "");
-	}
-}
+define("USER", " \033[1;1;49m[==]\033[0m");
 
 function stdout()
 {
-	$args = implode(
-		" ",
-		array_map(
-			function ($v)
-			{
-				return print_r($v, true);
-			},
-			func_get_args()
-		)
-	);
-	fwrite(STDOUT, $args . PHP_EOL);
+	fwrite(STDOUT, implode(" ", array_map(function ($v) { return print_r($v, true); }, func_get_args())) . PHP_EOL);
 }
 
 function stderr()
 {
-	$args = implode(
-		" ",
-		array_map(
-			function ($v)
-			{
-				return print_r($v, true);
-			},
-			func_get_args()
-		)
-	);
-	fwrite(STDERR, $args . PHP_EOL);
+	fwrite(STDERR, implode(" ", array_map(function ($v) { return print_r($v, true); }, func_get_args())) . PHP_EOL);
 }
 
 try
@@ -122,7 +32,7 @@ try
 	if (empty($argv[1]))
 	{
 		stderr(FAIL, "No PWD detected.");
-		exit(2);
+		exit(0);
 	}
 
 	/** @noinspection SpellCheckingInspection */
@@ -131,60 +41,112 @@ try
 
 	if (!file_exists(SSH_SERVER_INI))
 	{
-		stderr(FAIL, "No ssh-servers.ini file at", PWD);
-		exit(2);
-	}
-
-	$servers = parse_ini_file(SSH_SERVER_INI, true);
-
-	// stdout(GOOD, PWD, $servers);
-
-	foreach ($servers as $name => &$details)
-	{
-		$details = new Server($name, $details);
+		stderr(FAIL, "No ssh-servers.ini file at", PWD . ". Bye.");
+		exit(0);
 	}
 
 	if (empty($argv[2]))
 	{
-		stdout("List of servers to SSH to:");
-		/**
-		 * @var string $name
-		 * @var Server $server
-		 */
-		foreach ($servers as $name => $server)
+		stdout(GOOD, "ssh-servers.ini located at", PWD);
+	}
+
+	$servers = parse_ini_file(SSH_SERVER_INI, true);
+	$newServers = array(null);
+	foreach($servers as $name => $details)
+	{
+		$server = array_merge(
+			array(
+				"name" => $name,
+				"host" => null,
+				"user" => null,
+				"pass" => null,
+				"key" => null
+			),
+			$details
+		);
+
+		if (empty($server["host"]))
 		{
-			stdout(TASK, $name, "(" . $server->toDescriptiveString() . ")");
+			throw new \Exception("No host for '{$name}'.");
 		}
-		exit(1);
+		elseif (empty($server["user"]))
+		{
+			throw new \Exception("No user for '{$name}'.");
+		}
+		elseif (empty($server["key"]) && empty($server["pass"]))
+		{
+			throw new \Exception("No password / key for '{$name}'.");
+		}
+
+		if (!empty($server["key"]) && (substr($server["key"], 0, 1) !== "/") && (substr($server["key"], 0, 1) !== "~"))
+		{
+			$server["key"] = PWD . "/" . $server["key"];
+		}
+
+		$newServers[] = $server;
+	}
+	$servers = $newServers;
+	unset($newServers, $server, $name, $details);
+
+	// stdout(GOOD, PWD, $servers);
+
+	if (empty($argv[2]))
+	{
+		stdout(PHP_EOL . "  Where would you like to go?");
+
+		for($i = 1; $i < count($servers); $i++)
+		{
+			$padding = ((count($servers) > 10) && ($i < 10) ? " " : "");
+			$server = $servers[$i];
+
+			stdout(
+				" \033[1;1;49m[{$i}]\033[0m{$padding}",
+				$server["name"] . "(" . $server["user"] . "@" . $server["host"],
+				"with a " . (!empty($server["key"]) ? "key" : "password") . ")"
+			);
+		}
+
+		fwrite(STDOUT, PHP_EOL . "Please choose [1.." . (count($servers) - 1) . "]: ");
+		$selection = intval(trim(fgets(STDIN)));
+
+		if (empty($selection))
+		{
+			stderr(FAIL, "No server selected. Bye.");
+			exit(0);
+		}
+		elseif (($selection <= 0) || ($selection > (count($servers) - 1)))
+		{
+			stderr(FAIL, "Invalid number entered. Bye.");
+			exit(0);
+		}
+
+		$server = $servers[$selection];
+		stdout(
+			GOOD, "Connecting to", $server["user"] . "@" . $server["host"], "with",
+			(!empty($server["key"]) ? "key located at " . $server["key"] : "password '" . $server["pass"] . "'")
+		);
+		exit($selection);
 	}
 	else
 	{
-		if (!array_key_exists($argv[2], $servers))
+		if (empty($servers[$argv[2]]))
 		{
 			stderr(FAIL, "Unknown server to connect to.");
 			exit(1);
 		}
 
-		/** @var Server $server */
 		$server = $servers[$argv[2]];
-		if (empty($_SERVER["RETURN_CMD"]))
-		{
-			stdout($server->toDescriptiveString(true));
-		}
-		else
-		{
-			stdout($server->toSshCommand());
-		}
-		exit(0);
+		stdout(
+			"ssh", $server["user"] . "@" . $server["host"] . (!empty($server["key"]) ? " -i " . $server["key"] : "")
+		);
 	}
 }
 catch (ConfigException $e)
 {
 	stderr(FAIL, "Invalid ssh-servers.ini:", $e->getMessage());
-	exit(3);
 }
 catch (\Exception $e)
 {
 	stderr(FAIL, (string)$e);
-	exit(3);
 }
+exit(0);

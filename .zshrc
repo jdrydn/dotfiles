@@ -13,7 +13,7 @@ source $ZSH/oh-my-zsh.sh
 
 #alias ll="ls -lF --group-directories-first"
 alias xkcd-password="bash ~/.dotfiles/xkcd-password.sh $@"
-alias ssh-server="sh ~/.dotfiles/ssh-server/script.sh"
+alias sshserver="sh ~/.dotfiles/ssh-server/script.sh"
 
 export EDITOR=vim
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$HOME/npm/bin:$HOME/bin:$HOME/.bin
