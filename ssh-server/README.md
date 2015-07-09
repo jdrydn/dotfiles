@@ -13,7 +13,7 @@ $ sshserver
  [1]  name-of-server (root@some.ip.of.that.server with a password)
  [2]  name-of-other-server (some_user@some.ip.of.this.server with a key)
  [3]  name-of-yet-another-server (ubuntu@some.ip.of.the.server with a key)
- 
+
   Please choose [1..3]: 1
  [==] Connecting to root@some.ip.of.that.server with password 'a1b2c3d4e5f6'
 root@12.345.678.9's password:
@@ -78,8 +78,8 @@ $ sshserver
  [1]  name-of-server (root@some.ip.of.that.server with a password)
  [2]  name-of-other-server (some_user@some.ip.of.this.server with a key)
  [3]  name-of-yet-another-server (ubuntu@some.ip.of.the.server with a key)
- 
-  Please choose [1..3]: 
+
+  Please choose [1..3]:
 ```
 
 And when you select a number, it doesn't run the `ssh` process under a `php` process. Instead, the script continues to

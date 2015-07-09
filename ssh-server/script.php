@@ -92,6 +92,16 @@ try
 
 	if (empty($argv[2]))
 	{
+		if (count($servers) === 2)
+		{
+			$server = $servers[1];
+			stdout(
+				GOOD, "Connecting to", $server["user"] . "@" . $server["host"], "with",
+				(!empty($server["key"]) ? "key located at " . $server["key"] : "password '" . $server["pass"] . "'")
+			);
+			exit(1);
+		}
+
 		stdout(PHP_EOL . "  Where would you like to go?");
 
 		for($i = 1; $i < count($servers); $i++)
@@ -101,7 +111,7 @@ try
 
 			stdout(
 				" \033[1;1;49m[{$i}]\033[0m{$padding}",
-				$server["name"] . "(" . $server["user"] . "@" . $server["host"],
+				$server["name"] . " (" . $server["user"] . "@" . $server["host"],
 				"with a " . (!empty($server["key"]) ? "key" : "password") . ")"
 			);
 		}
@@ -137,7 +147,7 @@ try
 
 		$server = $servers[$argv[2]];
 		stdout(
-			"ssh", $server["user"] . "@" . $server["host"] . (!empty($server["key"]) ? " -i " . $server["key"] : "")
+			"ssh", $server["user"] . "@" . $server["host"] . (!empty($server["key"]) ? " -i '" . $server["key"] . "'" : "")
 		);
 	}
 }
