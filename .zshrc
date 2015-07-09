@@ -12,8 +12,9 @@ plugins=(brew encode64 git lol npm nyan screen sudo svn-fast-info urltools vagra
 source $ZSH/oh-my-zsh.sh
 
 #alias ll="ls -lF --group-directories-first"
-alias xkcd-password="bash ~/.dotfiles/xkcd-password.sh $@"
+alias putio="node ~/.dotfiles/putio/putio.js $@"
 alias sshserver="sh ~/.dotfiles/ssh-server/script.sh"
+alias xkcd-password="bash ~/.dotfiles/xkcd-password.sh $@"
 
 export EDITOR=vim
 export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$HOME/npm/bin:$HOME/bin:$HOME/.bin
@@ -27,4 +28,3 @@ if [ -f ~/.dotfiles/welcome ]; then
 else
 	printf "You have not set up the screen selector yet...\n"
 fi
-
