@@ -1,0 +1,14 @@
+{
+  "name": "putio-node-downloader",
+  "version": "0.1.0",
+  "description": "Car Throttle API platform backend",
+  "private": true,
+  "main": "putio.js",
+  "author": "James D <james@jdrydn.com> (http://jdrydn.com)",
+  "dependencies": {
+    "async": "^0.9.0",
+    "lodash": "^3.10.0",
+    "request": "^2.55.0",
+    "shelljs": "^0.5.1"
+  }
+}
