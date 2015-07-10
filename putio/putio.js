@@ -40,7 +40,7 @@ var download = function download(file, next) {
     return next();
   }
 
-  console.log(file.name);
+  console.log('Downloading ' + file.name + ' to ' + path.join(process.env.PWD, file.name));
 
   var progress = new ProgressBar('Downloading [:bar] :percent :etas', {
     complete: '=',
@@ -49,14 +49,15 @@ var download = function download(file, next) {
     total: parseInt(file.size, 10)
   });
 
+  var incrementProgress = function incrementProgress(chunk) {
+    progress.tick(chunk.length);
+  };
+
   request({
     qs: {oauth_token: process.env.PUT_IO_TOKEN},
     url: 'https://api.put.io/v2/files/' + file.id + '/download'
   })
-  .on('data', function (chunk) {
-    progress.tick(chunk.length);
-  })
-  .on('error', next)
+  .on('data', incrementProgress).on('error', next).on('end', next)
   .pipe(fs.createWriteStream(path.join(process.env.PWD, file.name)));
 };
 
