@@ -1,12 +1,20 @@
 if (!process.env.PUT_IO_TOKEN) {
   console.error('Missing PUT_IO_TOKEN.');
-  process.exit(0);
+  process.exit(1);
+}
+if (!process.env.PWD) {
+  console.error('Missing PWD.');
+  process.exit(1);
 }
 
 // var _ = require('lodash');
 var async = require('async');
+var fs = require('fs');
+var path = require('path');
+var ProgressBar = require('progress');
 var request = require('request');
-var shelljs = require('shelljs');
+var shellescape = require('shell-escape');
+var shellexec = require('shelljs').exec;
 
 var COLOURS = {
   FAIL: ' \033[0;31;49m[==]\033[0m ',
@@ -15,58 +23,41 @@ var COLOURS = {
   TASK: ' \033[0;34;49m[==]\033[0m ',
   USER: ' \033[1;1;49m[==]\033[0m '
 };
-var PUT_IO_TOKEN = process.env.PUT_IO_TOKEN;
 
 var download = function download(file, next) {
-  if (Array.isArray(file)) {
-    return async.each(file, download, next);
-  }
-
-  if (file.content_type.indexOf('video/') !== 0) {
-    // console.error('This file is not a video: ' + JSON.stringify(file));
-    return next();
-  }
-
   if (!file.id) {
-    // console.error('Unable to get file id from file: ' + JSON.stringify(file));
+    console.error('Unable to get file id from file: ' + JSON.stringify(file));
     return next();
   }
 
   if (!file.name) {
-    // console.error('Unable to get filename from file: ' + JSON.stringify(file));
+    console.error('Unable to get filename from file: ' + JSON.stringify(file));
+    return next();
+  }
+
+  if (file.content_type.indexOf('video/') !== 0) {
+    console.error('This file is not a video: ' + file.name);
     return next();
   }
 
   console.log(file.name);
 
-  putio({url: '/files/' + file.id + '/download'}, function (error, res) {
-    if (error) {
-      return next(error);
-    }
-
-    console.log(res.headers);
-    next();
+  var progress = new ProgressBar('Downloading [:bar] :percent :etas', {
+    complete: '=',
+    incomplete: ' ',
+    width: 20,
+    total: parseInt(file.size, 10)
   });
-};
 
-var putio = function (options, done) {
-  options = options || {};
-  options.json = true;
-  options.qs = options.qs || {};
-  options.url = 'https://api.put.io/v2' + options.url;
-
-  options.qs.oauth_token = process.env.PUT_IO_TOKEN;
-
-  console.log(options);
-
-  request(options, function (error, res, body) {
-    res = res || {};
-    done(error, {
-      status: res.statusCode || 500,
-      headers: res.headers || {},
-      body: body || null
-    });
-  });
+  request({
+    qs: {oauth_token: process.env.PUT_IO_TOKEN},
+    url: 'https://api.put.io/v2/files/' + file.id + '/download'
+  })
+  .on('data', function (chunk) {
+    progress.tick(chunk.length);
+  })
+  .on('error', next)
+  .pipe(fs.createWriteStream(path.join(process.env.PWD, file.name)));
 };
 
 async.each(
@@ -78,30 +69,43 @@ async.each(
       return next(COLOURS.FAIL + file_id + ' is not a valid number.');
     }
 
-    var filename = null;
-    var fileurl = null;
+    request(
+      {
+        json: true,
+        qs: {oauth_token: process.env.PUT_IO_TOKEN},
+        url: 'https://api.put.io/v2/files/' + file_id
+      },
+      function (error, res, body) {
+        if (error) {
+          return next(error);
+        }
+        if (res.statusCode !== 200 || !body || !body.file) {
+          return next(new Error('Failed to get file from Put.IO: ' + JSON.stringify(body)));
+        }
 
-    putio({url: '/files/' + file_id}, function (error, res) {
-      if (error) {
-        return next(error);
-      }
-      if (res.status !== 200 || !res.body || !res.body.file) {
-        return next(new Error('Failed to get file from Put.IO: ' + JSON.stringify(res.body)));
-      }
+        if (body.file.content_type !== 'application/x-directory') {
+          return download(body.file, next);
+        }
 
-      if (res.body.file.content_type === 'application/x-directory') {
-        return putio({qs: {parent_id: file_id}, url: '/files/list'}, function (error, res) {
-          if (error) {
-            return next(error);
+        request(
+          {
+            json: true,
+            qs: {oauth_token: process.env.PUT_IO_TOKEN, parent_id: file_id},
+            url: 'https://api.put.io/v2/files/list'
+          },
+          function (error, res, body) {
+            if (error) {
+              return next(error);
+            }
+            if (res.statusCode !== 200 || !body || !body.files) {
+              return next(new Error('Failed to get files from Put.IO: ' + JSON.stringify(body)));
+            }
+
+            async.each(body.files, download, next);
           }
-
-          async.each(res.body.files, download, next);
-        });
+        );
       }
-      else {
-        download(res.body.file, next);
-      }
-    });
+    );
   },
   function (error) {
     if (error) {
