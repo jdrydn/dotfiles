@@ -7,7 +7,6 @@ if (!process.env.PWD) {
   process.exit(1);
 }
 
-// var _ = require('lodash');
 var async = require('async');
 var fs = require('fs');
 var path = require('path');
@@ -16,12 +15,11 @@ var request = require('request');
 var shellescape = require('shell-escape');
 var shellexec = require('shelljs').exec;
 
-var COLOURS = {
-  FAIL: ' \033[0;31;49m[==]\033[0m ',
-  GOOD: ' \033[0;32;49m[==]\033[0m ',
-  WARN: ' \033[0;33;49m[==]\033[0m ',
-  TASK: ' \033[0;34;49m[==]\033[0m ',
-  USER: ' \033[1;1;49m[==]\033[0m '
+var allowed = [
+  'video/', 'audio/mp4'
+];
+var isAllowed = function isAllowed(content_type, type) {
+  return content_type.indexOf(types) === 0;
 };
 
 var download = function download(file, next) {
@@ -35,29 +33,28 @@ var download = function download(file, next) {
     return next();
   }
 
-  if (file.content_type.indexOf('video/') !== 0) {
-    console.error('This file is not a video: ' + file.name);
+  if (allowed.filter(isAllowed.bind(null, file.content_type)).length === 0) {
     return next();
   }
 
   console.log('Downloading ' + file.name + ' to ' + path.join(process.env.PWD, file.name));
 
-  var progress = new ProgressBar('Downloading [:bar] :percent :etas', {
+  var progress = new ProgressBar('Downloading ' + file.name + ' [:bar] :percent :etas', {
     complete: '=',
     incomplete: ' ',
     width: 20,
     total: parseInt(file.size, 10)
   });
 
-  var incrementProgress = function incrementProgress(chunk) {
-    progress.tick(chunk.length);
-  };
-
   request({
     qs: {oauth_token: process.env.PUT_IO_TOKEN},
     url: 'https://api.put.io/v2/files/' + file.id + '/download'
   })
-  .on('data', incrementProgress).on('error', next).on('end', next)
+  .on('data', function incrementProgress(chunk) {
+    progress.tick(chunk.length);
+  })
+  .on('error', next)
+  .on('end', next)
   .pipe(fs.createWriteStream(path.join(process.env.PWD, file.name)));
 };
 
@@ -67,7 +64,7 @@ async.each(
     console.log(file_id);
 
     if (isNaN(parseInt(file_id, 10))) {
-      return next(COLOURS.FAIL + file_id + ' is not a valid number.');
+      return next('' + file_id + ' is not a valid number.');
     }
 
     request(
