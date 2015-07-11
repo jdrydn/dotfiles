@@ -19,7 +19,7 @@ var allowed = [
   'video/', 'audio/mp4'
 ];
 var isAllowed = function isAllowed(content_type, type) {
-  return content_type.indexOf(types) === 0;
+  return content_type.indexOf(type) === 0;
 };
 
 var download = function download(file, next) {
