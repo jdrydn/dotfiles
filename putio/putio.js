@@ -21,6 +21,7 @@ var allowed = [
 var isAllowed = function isAllowed(content_type, type) {
   return content_type.indexOf(type) === 0;
 };
+var progress = {};
 
 var download = function download(file, next) {
   if (!file.id) {
@@ -39,7 +40,7 @@ var download = function download(file, next) {
 
   console.log('Downloading ' + file.name + ' to ' + path.join(process.env.PWD, file.name));
 
-  var progress = new ProgressBar('Downloading ' + file.name + ' [:bar] :percent :etas', {
+  progress[file.id] = new ProgressBar('Downloading ' + file.name + ' [:bar] :percent :etas', {
     complete: '=',
     incomplete: ' ',
     width: 20,
@@ -51,7 +52,7 @@ var download = function download(file, next) {
     url: 'https://api.put.io/v2/files/' + file.id + '/download'
   })
   .on('data', function incrementProgress(chunk) {
-    progress.tick(chunk.length);
+    progress[file.id].tick(chunk.length);
   })
   .on('error', next)
   .on('end', next)
