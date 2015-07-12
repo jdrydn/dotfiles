@@ -33,6 +33,11 @@ var download = function download(file, next) {
     return next();
   }
 
+  if (file.name.toLowerCase().indexOf('sample') >= 0) {
+    console.error('Sample file? Ignoring: ' + file.name);
+    return next();
+  }
+
   if (allowed.filter(isAllowed.bind(null, file.content_type)).length === 0) {
     return next();
   }
