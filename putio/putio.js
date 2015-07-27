@@ -12,8 +12,6 @@ var fs = require('fs');
 var path = require('path');
 var ProgressBar = require('progress');
 var request = require('request');
-var shellescape = require('shell-escape');
-var shellexec = require('shelljs').exec;
 
 var allowed = [
   'video/', 'audio/mp4'
