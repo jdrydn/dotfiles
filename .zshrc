@@ -7,7 +7,7 @@ DISABLE_AUTO_TITLE="true"
 # DISABLE_CORRECTION="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
-plugins=(atom brew encode64 git httpie npm nyan osx screen sudo vagrant web-search)
+plugins=(atom brew emoji encode64 git httpie npm nyan osx screen vagrant web-search)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -28,3 +28,7 @@ if [ -f ~/.dotfiles/welcome ]; then
 else
 	printf "You have not set up the screen selector yet...\n"
 fi
+
+export NVM_DIR="/Users/James/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
