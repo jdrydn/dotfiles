@@ -1,6 +1,6 @@
 [alias]
 	deploy = "!bash ~/.dotfiles/git-deploy.sh"
-	plush = "!git pull && git push"
+	plush = "!git pull --no-edit && git push"
 [core]
 	editor = vim
 	autocrlf = input
