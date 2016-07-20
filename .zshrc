@@ -12,7 +12,7 @@ plugins=(atom brew emoji encode64 git httpie npm nyan osx screen vagrant web-sea
 source $ZSH/oh-my-zsh.sh
 
 #alias ll="ls -lF --group-directories-first"
-alias putio="node ~/.dotfiles/putio/putio.js $@"
+alias sorry='sudo $(history -p !-1)'
 alias sshserver="sh ~/.dotfiles/ssh-server/script.sh"
 alias xkcd-password="bash ~/.dotfiles/xkcd-password.sh $@"
 
@@ -23,10 +23,12 @@ if [ -f ~/.zsh_more ]; then
     . ~/.zsh_more
 fi
 
-if [ -f ~/.dotfiles/welcome ]; then
-	. ~/.dotfiles/welcome
-else
-	printf "You have not set up the screen selector yet...\n"
+if [ ! -z "$ZSH_IGNORE_WELCOME" ]; then
+  if [ -f ~/.dotfiles/welcome ]; then
+    . ~/.dotfiles/welcome
+  else
+    printf "You have not set up the screen selector yet...\n"
+  fi
 fi
 
 export NVM_DIR="/Users/James/.nvm"
