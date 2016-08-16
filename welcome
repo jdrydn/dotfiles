@@ -6,11 +6,13 @@ screen-select()
 	local screens="$(screen -list | sed -n -e '/[0-9].[a-z]/p' | sed '/Socket/d')"
 	
 	printf "\n"
-	if [ -z $ZSH_WELCOME_HIDE_BASH ]; then
+	if [ -z "$ZSH_WELCOME_HIDE_BASH" ]; then
 		printf "b\tLaunch bash shell\n\t^ Choose this if you don't know what this menu is!\n"
 	fi
 	printf "c\tCreate a new session\n"
-	printf "s\tSSH to another server\n"
+	if [ -z "$ZSH_WELCOME_HIDE_SSH" ]; then
+		printf "s\tSSH to another server\n"
+	fi
 	printf "q\tQuit\n"
 	
 	if [ -z "$screens" ]; then
