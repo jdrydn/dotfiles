@@ -17,6 +17,7 @@ source $ZSH/oh-my-zsh.sh
 
 #alias ll="ls -lF --group-directories-first"
 #alias sshserver="sh ~/.dotfiles/ssh-server/script.sh"
+alias check-uptime="~/.dotfiles/check-uptime.sh"
 alias xkcd-password="~/.dotfiles/xkcd-password/cli.sh $@"
 
 export EDITOR=vim
