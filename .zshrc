@@ -27,14 +27,3 @@ if [ -f ~/.zsh_more ]; then
   source ~/.zsh_more
 fi
 
-if [ -z "$ZSH_IGNORE_WELCOME" ]; then
-  which screen >> /dev/null
-  if [ "$?" -eq 0 ]; then
-    if [ -f ~/.dotfiles/welcome ]; then
-      . ~/.dotfiles/welcome
-    else
-      printf "You have not set up the screen selector yet...\n"
-    fi
-  fi
-fi
-
