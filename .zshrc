@@ -14,6 +14,7 @@ DISABLE_AUTO_TITLE="true"
 plugins=(atom emoji encode64 git httpie npm nyan osx screen vagrant web-search)
 
 source $ZSH/oh-my-zsh.sh
+PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 
 #alias ll="ls -lF --group-directories-first"
 #alias sshserver="sh ~/.dotfiles/ssh-server/script.sh"
@@ -21,20 +22,8 @@ alias check-uptime="~/.dotfiles/check-uptime.sh"
 alias xkcd-password="~/.dotfiles/xkcd-password/cli.sh $@"
 
 export EDITOR=vim
-export PATH=$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:$HOME/npm/bin:$HOME/bin:$HOME/.bin
 
 if [ -f ~/.zsh_more ]; then
   source ~/.zsh_more
-fi
-
-if [ -z "$ZSH_IGNORE_WELCOME" ]; then
-  which screen >> /dev/null
-  if [ "$?" -eq 0 ]; then
-    if [ -f ~/.dotfiles/welcome ]; then
-      . ~/.dotfiles/welcome
-    else
-      printf "You have not set up the screen selector yet...\n"
-    fi
-  fi
 fi
 
