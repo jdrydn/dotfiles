@@ -7,8 +7,7 @@ set showcmd
 
 set autoindent
 set smartindent
-set tabstop=2
-set shiftwidth=2
+set tabstop=2 softtabstop=2 expandtab shiftwidth=2 smarttab
 
 set incsearch
 set ruler
