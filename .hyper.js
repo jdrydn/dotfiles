@@ -133,6 +133,9 @@ module.exports = {
   //   `project#1.0.1`
   plugins: [
     'hyperterm-tomorrow-night',
+    'hypercwd',
+    'hyperterm-paste',
+    'gitrocket',
   ],
 
   // in development, you can create a directory under
