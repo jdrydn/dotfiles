@@ -11,7 +11,7 @@ DISABLE_AUTO_TITLE="true"
 # DISABLE_CORRECTION="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
-plugins=(atom emoji encode64 git httpie npm nyan osx screen vagrant web-search gpg-agent)
+plugins=(atom emoji encode64 git httpie npm osx screen vagrant web-search gpg-agent)
 
 source $ZSH/oh-my-zsh.sh
 PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
