@@ -1,4 +1,4 @@
-# dotfiles
+# dotfiles
 
 My dotfiles. No longer scattered!
 
@@ -26,3 +26,19 @@ Check out [Git Pre-Commit Hooks README](./git-pre-commits/README.md) for more de
 
 This has been especially useful to me as I move towards online development using various terminals such as [Secure Shell](https://chrome.google.com/webstore/detail/secure-shell/pnhechapfaindjhompbnflcldabbghjo?hl=en) & [iTerm](http://iterm2.com).
 
+## Setup
+
+- [ ] Chrome
+- [ ] 1Password
+- [ ] Atom
+
+- [ ] Hyper
+```sh
+$ brew cask install hyper
+```
+
+- [ ] Paw
+- [ ] Sequel Pro
+- [ ] Git & Homebrew
+- [ ] TorBrowser
+- [ ] BetterSnapTool
