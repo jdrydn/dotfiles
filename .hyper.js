@@ -133,10 +133,10 @@ module.exports = {
   //   `project#1.0.1`
   plugins: [
     'hyper-material-theme',
-    'hyperline',
     'hyperlinks',
     'hypercwd',
     'hyperterm-paste',
+    "hyper-hide-title"
   ],
 
   // in development, you can create a directory under
