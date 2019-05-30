@@ -37,7 +37,7 @@ module.exports = {
 
     // terminal background color
     // opacity is only supported on macOS
-    backgroundColor: '#000',
+    backgroundColor: 'rgba(38, 50, 56, 1)',
 
     // terminal selection color
     selectionColor: 'rgba(248,28,229,0.3)',
@@ -131,13 +131,7 @@ module.exports = {
   //   `hyperpower`
   //   `@company/project`
   //   `project#1.0.1`
-  plugins: [
-    'hyper-material-theme',
-    'hyperline',
-    'hyperlinks',
-    'hypercwd',
-    'hyperterm-paste',
-  ],
+  plugins: ['hyperlinks', 'hypercwd', 'hyperterm-paste'],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here
