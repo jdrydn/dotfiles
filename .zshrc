@@ -11,13 +11,11 @@ DISABLE_AUTO_TITLE="true"
 # DISABLE_CORRECTION="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
-plugins=(atom emoji encode64 git httpie npm osx screen vagrant web-search)
+plugins=(emoji encode64 git httpie npm osx screen vagrant web-search)
 
 source $ZSH/oh-my-zsh.sh
 PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 
-#alias ll="ls -lF --group-directories-first"
-#alias sshserver="sh ~/.dotfiles/ssh-server/script.sh"
 alias check-uptime="~/.dotfiles/check-uptime.sh"
 alias xkcd-password="~/.dotfiles/xkcd-password/cli.sh $@"
 
