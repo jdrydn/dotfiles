@@ -12,7 +12,7 @@ module.exports = {
     fontSize: 12,
 
     // font family with optional fallbacks
-    fontFamily: 'Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
+    fontFamily: 'JetBrains Mono, Menlo, "DejaVu Sans Mono", Consolas, "Lucida Console", monospace',
 
     // default font weight: 'normal' or 'bold'
     fontWeight: 'normal',
@@ -136,7 +136,7 @@ module.exports = {
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here
   // to load it and avoid it being `npm install`ed
-  localPlugins: [],
+  localPlugins: [ 'dracula-pro' ],
 
   keymaps: {
     // Example
