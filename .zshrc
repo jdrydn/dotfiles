@@ -14,7 +14,7 @@ DISABLE_AUTO_TITLE="true"
 plugins=(emoji encode64 git httpie npm osx screen vagrant web-search)
 
 source $ZSH/oh-my-zsh.sh
-PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
 
 alias check-uptime="~/.dotfiles/check-uptime.sh"
 alias xkcd-password="~/.dotfiles/xkcd-password/cli.sh $@"
