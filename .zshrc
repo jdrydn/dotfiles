@@ -25,3 +25,7 @@ if [ -f ~/.zsh_more ]; then
   source ~/.zsh_more
 fi
 
+if hash thefuck 2>/dev/null; then
+  eval $(thefuck --alias)
+fi
+
