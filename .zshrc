@@ -11,7 +11,7 @@ DISABLE_AUTO_TITLE="true"
 # DISABLE_CORRECTION="true"
 # COMPLETION_WAITING_DOTS="true"
 # DISABLE_UNTRACKED_FILES_DIRTY="true"
-plugins=(emoji encode64 git httpie npm osx screen vagrant web-search)
+plugins=(emoji encode64 git httpie npm macos screen vagrant web-search)
 
 source $ZSH/oh-my-zsh.sh
 export PATH=/usr/bin:/bin:/usr/sbin:/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
