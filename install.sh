@@ -3,7 +3,7 @@
 
 if [ ! -d ~/.oh-my-zsh ]; then
 	echo "Installing OH MY ZSH"
-	git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+	git clone github.com:robbyrussell/oh-my-zsh ~/.oh-my-zsh
 fi
 
 for FILE in `find .* -maxdepth 0 ! -type d | grep -v ".gitignore"`; do
