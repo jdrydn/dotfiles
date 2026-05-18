@@ -1,19 +1,19 @@
 # dotfiles
 
-My dotfiles. No longer scattered!
-
----
+System config & configuration
 
 ## Installation
 
-```bash
-$ git clone github.com:jdrydn/dotfiles .dotfiles
-$ cd .dotfiles && ./install.sh
+```sh
+# Clone this repository
+$ git clone git@github.com:jdrydn/dotfiles ~/.dotfiles
+$ cd ./.dotfiles
+
+# Install submodules
+$ git submodule init
+$ git submodule sync --recursive
+$ git submodule update --init --recursive --jobs "1"
+
+# Initialise
+$ ./init.sh
 ```
-
-This will take every single file starting with a `.` (except `.gitignore`) and create a symlink matching it to your home directory.
-
-	.vimrc -> .dotfiles/.vimrc
-	.zshrc -> .dotfiles/.zshrc
-
-And so on.
