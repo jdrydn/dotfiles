@@ -15,5 +15,5 @@ $ git submodule sync --recursive
 $ git submodule update --init --recursive --jobs "1"
 
 # Initialise
-$ ./init.sh
+$ ./install.sh
 ```

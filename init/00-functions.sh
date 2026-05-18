@@ -64,6 +64,30 @@ copy_file() {
   log_msg "GOOD" "$dest: copied ← $src"
 }
 
+# Write CONTENT to DEST, backing up any existing different file at DEST
+# Usage: create_file "$HOME/.foo" "$(cat <<'EOF'
+# line one
+# line two
+# EOF
+# )"
+create_file() {
+  local dest="$1" content="$2"
+
+  if [[ -f "$dest" && ! -L "$dest" ]] && cmp -s <(printf "%s\n" "$content") "$dest"; then
+    log_msg "GOOD" "$dest: already matches content"
+    return
+  fi
+
+  if [[ -e "$dest" || -L "$dest" ]]; then
+    mv "$dest" "$dest.bak"
+    log_msg "WARN" "$dest: existing file backed up to $dest.bak"
+  fi
+
+  mkdir -p "$(dirname "$dest")"
+  printf "%s\n" "$content" > "$dest"
+  log_msg "GOOD" "$dest: created"
+}
+
 # Symlink SRC -> DEST, backing up any existing real file/dir at DEST
 # Usage: symlink_file "$DOTFILES_DIR/zshrc" "$HOME/.zshrc"
 symlink_file() {
