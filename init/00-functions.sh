@@ -98,7 +98,7 @@ symlink_file() {
   fi
 
   if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
-    log_msg "GOOD" "$dest: already linked → $src"
+    log_msg "GOOD" "$dest: already linked"
     return
   fi
 

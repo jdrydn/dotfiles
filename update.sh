@@ -15,3 +15,6 @@ printf "\n"
 source "$DOTFILES_DIR/init/02-ohmyzsh.sh"
 printf "\n"
 source "$DOTFILES_DIR/init/03-setup.sh"
+printf "\n"
+
+printf '\033[1m%s\033[0m\n' "Done ✅"
