@@ -13,18 +13,18 @@ else
   log_msg "INFO" "Launching macOS Installer — enter your admin credentials when prompted"
   open -W "$HOMEBREW_PKG_PATH"
 
+  if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
   if command -v brew >/dev/null 2>&1; then
+
     log_msg "GOOD" "Homebrew installed"
     rm -f "$HOMEBREW_PKG_PATH"
     unset HOMEBREW_PKG_PATH
   else
     throw_err "1" "Homebrew pkg installer did not complete"
-  fi
-
-  if [[ -f "/opt/homebrew/bin/brew" ]]; then
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-  elif [[ -f "/usr/local/bin/brew" ]]; then
-    eval "$(/usr/local/bin/brew shellenv)"
   fi
 fi
 
