@@ -28,12 +28,22 @@ else
   create_file "$ZSHRC_PATH" "$(cat <<EOF
 # Shared configuration
 source $DOTFILES_DIR/config/zsh/config.zsh
+# Place unique configuration below this point ⬇⬇⬇
+
 EOF
 )"
 fi
 
 # vimrc
 symlink_file "$DOTFILES_DIR/config/vimrc" "$HOME/.vimrc"
+
+# CLAUDE files
+mkdir -p "$HOME/.claude"
+symlink_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+symlink_file "$DOTFILES_DIR/config/claude/settings.json" "$HOME/.claude/settings.json"
+symlink_file "$DOTFILES_DIR/config/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
+# symlink_dir  "$DOTFILES_DIR/config/claude/agents" "$HOME/.claude/agents"
+# symlink_dir  "$DOTFILES_DIR/config/claude/skills" "$HOME/.claude/skills"
 
 unset GITCONFIG_PATH
 unset ZSHRC_PATH
