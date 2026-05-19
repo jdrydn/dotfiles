@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # A script to generate a phrase from a random set of words
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if (( $# < 1 )); then
   nwords=4
 else
-	nwords=$1
+  nwords=$1
 fi
 
 declare -a array

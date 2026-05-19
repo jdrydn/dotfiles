@@ -1,0 +1,12 @@
+brew "deno"
+brew "gh"
+brew "jq"
+brew "mise"
+brew "nvm"
+brew "thefuck"
+
+brew "hashicorp/tap/terraform"
+brew "terragrunt"
+
+cask "font-monaspace"
+cask "claude-code"

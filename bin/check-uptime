@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+while true; do
+  printf "\n"
+  http GET "$1" --follow --all --max-redirects=5 --print=Hh
+  printf "----\n"
+  sleep 5
+done
