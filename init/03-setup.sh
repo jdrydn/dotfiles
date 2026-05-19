@@ -37,6 +37,8 @@ fi
 # vimrc
 symlink_file "$DOTFILES_DIR/config/vimrc" "$HOME/.vimrc"
 
+printf "\n✻ Claude\n"
+
 # CLAUDE files
 mkdir -p "$HOME/.claude"
 symlink_file "$DOTFILES_DIR/config/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"

@@ -18,8 +18,8 @@ else
   elif [[ -f "/usr/local/bin/brew" ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
   fi
-  if command -v brew >/dev/null 2>&1; then
 
+  if command -v brew >/dev/null 2>&1; then
     log_msg "GOOD" "Homebrew installed"
     rm -f "$HOMEBREW_PKG_PATH"
     unset HOMEBREW_PKG_PATH

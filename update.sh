@@ -17,4 +17,7 @@ printf "\n"
 source "$DOTFILES_DIR/init/03-setup.sh"
 printf "\n"
 
-printf '\033[1m%s\033[0m\n' "Done ✅"
+printf "You may need to reload your shell for changes to take effect\n"
+printf "→ $ source ~/.zshrc\n"
+
+printf '\n\033[1m%s\033[0m\n' "Done ✅"
