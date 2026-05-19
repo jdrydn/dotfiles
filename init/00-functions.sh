@@ -111,3 +111,27 @@ symlink_file() {
   ln -sfn "$src" "$dest"
   log_msg "GOOD" "$dest: linked → $src"
 }
+
+# Symlink directory SRC -> DEST, backing up any existing real dir at DEST
+# Usage: symlink_dir "$DOTFILES_DIR/config/nvim" "$HOME/.config/nvim"
+symlink_dir() {
+  local src="$1" dest="$2"
+
+  if [[ ! -d "$src" ]]; then
+    throw_err "1" "symlink_dir: source directory does not exist: $src"
+  fi
+
+  if [[ -L "$dest" && "$(readlink "$dest")" == "$src" ]]; then
+    log_msg "GOOD" "$dest: already linked"
+    return
+  fi
+
+  if [[ -e "$dest" && ! -L "$dest" ]]; then
+    mv "$dest" "$dest.bak"
+    log_msg "WARN" "$dest: existing directory backed up to $dest.bak"
+  fi
+
+  mkdir -p "$(dirname "$dest")"
+  ln -sfn "$src" "$dest"
+  log_msg "GOOD" "$dest: linked → $src"
+}
