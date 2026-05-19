@@ -1,6 +1,6 @@
 # dotfiles
 
-System config & configuration
+System setup, tooling & configuration
 
 ## Installation
 
@@ -15,5 +15,5 @@ $ git submodule sync --recursive
 $ git submodule update --init --recursive --jobs "1"
 
 # Initialise
-$ ./install.sh
+$ ./update.sh
 ```
