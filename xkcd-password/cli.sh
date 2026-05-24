@@ -14,7 +14,7 @@ let index=0
 while read line; do
   array[$index]=$line
   let index=$index+1
-done < "$DIR/words.txt"
+done < "$DIR/../xkcd-password/words.txt"
 
 RANDOM=$$$(date +%s)
 let "lastword = $nwords - 1"

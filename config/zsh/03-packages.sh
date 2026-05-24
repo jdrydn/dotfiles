@@ -7,12 +7,12 @@ fi
 
 # direnv
 if hash direnv 2>/dev/null; then
-  eval $(direnv hook zsh)
+  eval "$(direnv hook zsh)"
 fi
 
 # thefuck
 if hash thefuck 2>/dev/null; then
-  eval $(thefuck --alias)
+  eval "$(thefuck --alias)"
 fi
 
 # nvm

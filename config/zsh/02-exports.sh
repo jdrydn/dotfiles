@@ -4,7 +4,7 @@ export EDITOR="vim"
 
 PATH_ENTRIES=(
   # Homebrew
-  "/opt/homebrew/bin/bin"
+  "/opt/homebrew/bin"
   "/usr/local/bin"
 
   # Local binaries
@@ -17,7 +17,7 @@ PATH_ENTRIES=(
   "/sbin"
 
   # Dotfiles
-  "$HOME/.dotfiles/bin"
+  "${0:A:h:h:h}/bin"
 )
 
 PATH=""
@@ -26,3 +26,5 @@ for entry in "${PATH_ENTRIES[@]}"; do
 done
 export PATH
 unset PATH_ENTRIES
+
+echo $PATH
