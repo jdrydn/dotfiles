@@ -26,5 +26,3 @@ for entry in "${PATH_ENTRIES[@]}"; do
 done
 export PATH
 unset PATH_ENTRIES
-
-echo $PATH
