@@ -13,7 +13,7 @@ else
 
   git config --file "$GITCONFIG_PATH" user.name "$GIT_USER_NAME"
   git config --file "$GITCONFIG_PATH" user.email "$GIT_USER_EMAIL"
-  git config --file "$GITCONFIG_PATH" include.path "$DOTFILES_DIR/config/git/config"
+  git config --file "$GITCONFIG_PATH" include.path "$DOTFILES_DIR/config/git/gitconfig"
 
   unset GIT_USER_NAME GIT_USER_EMAIL
   log_msg "GOOD" "$GITCONFIG_PATH: created"
