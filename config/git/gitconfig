@@ -21,3 +21,7 @@
 
 [push]
   default = simple
+
+[user]
+  name = James Dryden
+  email = james@jdrydn.com

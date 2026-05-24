@@ -28,6 +28,7 @@ else
   fi
 fi
 
+# Homebrew casks will be installed into ~/Applications by default
 export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
 
 # Update Homebrew
@@ -35,7 +36,7 @@ log_msg "INFO" "Updating Homebrew"
 brew update
 
 # Install packages from brewfile
-log_msg "INFO" "Installing Homebrew packages from brewfile"
+log_msg "INFO" "Refreshing Homebrew packages from brewfile"
 brew bundle --file="$DOTFILES_DIR/config/brewfile"
 
 unset HOMEBREW_CASK_OPTS

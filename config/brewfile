@@ -1,4 +1,5 @@
 brew "deno"
+brew "direnv"
 brew "gh"
 brew "jq"
 brew "mise"
