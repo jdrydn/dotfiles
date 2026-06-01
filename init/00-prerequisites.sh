@@ -54,3 +54,23 @@ if [[ "$GITHUB_SSH_TEST" == *"You've successfully authenticated"* ]]; then
 else
   throw_err "1" "GitHub SSH authentication failed. Set up & add an SSH key, add to GitHub, then re-run"
 fi
+
+# Determine machine profile (personal or work) — persisted per-machine to $DOTFILES_DIR/.profile
+PROFILE_FILE="$DOTFILES_DIR/.profile"
+if [[ -f "$PROFILE_FILE" ]]; then
+  DOTFILES_PROFILE="$(tr -d '[:space:]' < "$PROFILE_FILE")"
+  log_msg "GOOD" "profile: $DOTFILES_PROFILE (from $PROFILE_FILE)"
+else
+  while :; do
+    answer="$(prompt_one 'Machine profile? (p)ersonal / (w)ork')"
+    case "$answer" in
+      p|P) DOTFILES_PROFILE="personal"; break ;;
+      w|W) DOTFILES_PROFILE="work"; break ;;
+      *)   log_msg "WARN" "Please enter 'p' or 'w'" ;;
+    esac
+  done
+  printf "%s\n" "$DOTFILES_PROFILE" > "$PROFILE_FILE"
+  log_msg "GOOD" "profile: $DOTFILES_PROFILE (saved to $PROFILE_FILE)"
+fi
+export DOTFILES_PROFILE
+unset PROFILE_FILE
