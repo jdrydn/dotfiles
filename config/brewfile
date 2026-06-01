@@ -1,6 +1,7 @@
 brew "deno"
 brew "direnv"
 brew "gh"
+brew "httpie"
 brew "jq"
 brew "mise"
 brew "nvm"
