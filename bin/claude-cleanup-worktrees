@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# @link https://github.com/anthropics/claude-code/issues/26725#issuecomment-4022419885
+set -exuo pipefail
+
+# Remove all agent worktrees
+for wt in $(git worktree list --porcelain | grep "^worktree " | grep ".claude/worktrees" | sed 's/^worktree //'); do
+  git worktree remove --force "$wt"
+done
+git worktree prune
+# Delete orphan branches
+git branch | grep worktree-agent | xargs git branch -D
+rm -rf .claude/worktrees/
