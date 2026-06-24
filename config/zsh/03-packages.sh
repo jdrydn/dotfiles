@@ -19,7 +19,7 @@ fi
 HOMEBREW_NVM_PREFIX="$(brew --prefix nvm 2>/dev/null)"
 if [ -s "$HOMEBREW_NVM_PREFIX/nvm.sh" ]; then
   export NVM_DIR="$HOME/.nvm"
-  \. "$HOMEBREW_NVM_PREFIX/nvm.sh"
+  \. "$HOMEBREW_NVM_PREFIX/nvm.sh" --no-use
   [ -s "$HOMEBREW_NVM_PREFIX/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_NVM_PREFIX/etc/bash_completion.d/nvm"
 fi
 unset HOMEBREW_NVM_PREFIX
