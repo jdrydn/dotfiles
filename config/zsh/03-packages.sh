@@ -10,6 +10,11 @@ if hash direnv 2>/dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
+# mise
+if hash mise 2>/dev/null; then
+  eval "$(mise activate zsh)"
+fi
+
 # thefuck
 if hash thefuck 2>/dev/null; then
   eval "$(thefuck --alias)"
@@ -19,7 +24,7 @@ fi
 HOMEBREW_NVM_PREFIX="$(brew --prefix nvm 2>/dev/null)"
 if [ -s "$HOMEBREW_NVM_PREFIX/nvm.sh" ]; then
   export NVM_DIR="$HOME/.nvm"
-  \. "$HOMEBREW_NVM_PREFIX/nvm.sh" --no-use
+  \. "$HOMEBREW_NVM_PREFIX/nvm.sh"
   [ -s "$HOMEBREW_NVM_PREFIX/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_NVM_PREFIX/etc/bash_completion.d/nvm"
 fi
 unset HOMEBREW_NVM_PREFIX
