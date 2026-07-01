@@ -1,0 +1,68 @@
+#!/usr/bin/env bash
+# Runs `ping` with the given flags/args, tallying passes/failures and showing
+# a live average of the round-trip times plus the last three results.
+set -uo pipefail
+
+if (( $# < 1 )); then
+  echo "usage: ping-avg [ping flags/args] <host>" >&2
+  exit 1
+fi
+
+args="$*"
+passes=0
+failures=0
+sum=0
+last3=()
+drawn=0
+
+render() {
+  local avg="n/a"
+  if (( passes > 0 )); then
+    avg=$(awk "BEGIN { printf \"%.3f ms\", $sum / $passes }")
+  fi
+
+  local last="—"
+  if (( ${#last3[@]} > 0 )); then
+    printf -v last '%s, ' "${last3[@]}"
+    last="${last%, }"
+  fi
+
+  # Redraw the block in place after the first paint.
+  if (( drawn )); then
+    printf '\033[6A'
+  fi
+  drawn=1
+
+  printf '\033[2Kping-avg\n'
+  printf '\033[2K$ ping %s\n' "$args"
+  printf '\033[2K  passes:   %d\n' "$passes"
+  printf '\033[2K  failures: %d\n' "$failures"
+  printf '\033[2K  avg time: %s\n' "$avg"
+  printf '\033[2K  last 3:   %s\n' "$last"
+}
+
+summary() {
+  echo
+  echo "── final ──────────────────────────"
+  printf '  passes:   %d\n' "$passes"
+  printf '  failures: %d\n' "$failures"
+  if (( passes > 0 )); then
+    awk "BEGIN { printf \"  avg time: %.3f ms\\n\", $sum / $passes }"
+  fi
+}
+trap summary EXIT
+
+render
+while IFS= read -r line; do
+  if [[ $line =~ time=([0-9]+\.?[0-9]*) ]]; then
+    time="${BASH_REMATCH[1]}"
+    (( passes++ ))
+    sum=$(awk "BEGIN { print $sum + $time }")
+    last3+=("${time} ms")
+    (( ${#last3[@]} > 3 )) && last3=("${last3[@]: -3}")
+    render
+  elif [[ $line =~ (timeout|Unreachable|failure|100%\ packet\ loss) ]]; then
+    (( failures++ ))
+    render
+  fi
+done < <(ping "$@")
