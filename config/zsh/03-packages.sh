@@ -8,6 +8,10 @@ fi
 # direnv
 if hash direnv 2>/dev/null; then
   eval "$(direnv hook zsh)"
+  # Export now (not just on first precmd) so .envrc vars are set before mise
+  # activate runs its eager hook-env below — otherwise mise warns about
+  # required vars that direnv is about to provide.
+  eval "$(direnv export zsh)"
 fi
 
 # mise
