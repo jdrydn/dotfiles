@@ -81,9 +81,9 @@ while true; do
   ); then
     read -r http_status time_total_secs <<< "$output"
     reason=$(http_reason "$http_status")
-    printf '[%s] %s %s %s%s %.0fms\n' "$now" "$method" "$url" "$http_status" "${reason:+ $reason}" "$(awk "BEGIN { print $time_total_secs * 1000 }")"
+    printf '[%s]  %s %s  %s%s %.0fms\n' "$now" "$method" "$url" "$http_status" "${reason:+ $reason}" "$(awk "BEGIN { print $time_total_secs * 1000 }")"
   else
-    printf '[%s] %s %s ERROR %s\n' "$now" "$method" "$url" "${output%%$'\n'*}"
+    printf '[%s]  %s %s  ERROR %s\n' "$now" "$method" "$url" "${output%%$'\n'*}"
   fi
   sleep 5
 done
