@@ -2,3 +2,4 @@
 .idea/
 .oh-my-zsh/
 .profile
+config/mise/config.local.toml

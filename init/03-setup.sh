@@ -19,6 +19,12 @@ fi
 symlink_file "$DOTFILES_DIR/config/git/gitconfig" "$HOME/.gitconfig"
 # vimrc
 symlink_file "$DOTFILES_DIR/config/vimrc" "$HOME/.vimrc"
+# mise
+symlink_file "$DOTFILES_DIR/config/mise/config.toml" "$HOME/.config/mise/config.toml"
+# mise (local, optional)
+if [[ -f "$DOTFILES_DIR/config/mise/config.local.toml" ]]; then
+  symlink_file "$DOTFILES_DIR/config/mise/config.local.toml" "$HOME/.config/mise/config.local.toml"
+fi
 
 unset GITCONFIG_PATH
 unset ZSHRC_PATH
