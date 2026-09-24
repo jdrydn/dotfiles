@@ -52,5 +52,5 @@ GREETINGS=(
   "At some point, everything's gonna go south on you. You can either accept that, or you can get to work."
 )
 
-echo "»» ${GREETINGS[$(( RANDOM % ${#GREETINGS[@]} + 1 ))]}"
+echo "❯ ${GREETINGS[$(( RANDOM % ${#GREETINGS[@]} + 1 ))]}"
 unset GREETINGS
