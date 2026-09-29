@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+# Given a GitHub PR URL, build a Slack review-request message, print it and copy it to the clipboard.
+set -uo pipefail
+
+url="${1:-}"
+
+if [[ -z "$url" ]]; then
+  echo "usage: gh-pr-review-message <pr-url>" >&2
+  exit 1
+fi
+
+if [[ ! "$url" =~ ^https://github\.com/([^/]+)/([^/]+)/pull/([0-9]+) ]]; then
+  echo "error: not a valid GitHub PR URL: $url" >&2
+  exit 1
+fi
+
+owner="${BASH_REMATCH[1]}"
+repo="${BASH_REMATCH[2]}"
+num="${BASH_REMATCH[3]}"
+repo_url="https://github.com/$owner/$repo"
+
+title=$(gh pr view "$url" --json title -q .title)
+
+html_escape() {
+  local s="$1"
+  s="${s//&/&amp;}"
+  s="${s//</&lt;}"
+  s="${s//>/&gt;}"
+  printf '%s' "$s"
+}
+
+plain="Can I get a review on $repo:
+$title (#$num)"
+
+html="<p>Can I get a review on <a href=\"$repo_url\">$(html_escape "$repo")</a>:<br><a href=\"$url\">$(html_escape "$title") (#$num)</a></p>"
+
+# Slack's paste handler reads the public.html pasteboard type for rich links,
+# not RTF, so write the clipboard directly via NSPasteboard.
+osascript -l JavaScript -e '
+ObjC.import("AppKit")
+function run(argv) {
+  var html = argv[0]
+  var plain = argv[1]
+  var pb = $.NSPasteboard.generalPasteboard
+  pb.clearContents
+  var htmlData = $.NSString.alloc.initWithUTF8String(html).dataUsingEncoding($.NSUTF8StringEncoding)
+  pb.setDataForType(htmlData, $.NSPasteboardTypeHTML)
+  pb.setStringForType(plain, $.NSPasteboardTypeString)
+}
+' "$html" "$plain" >/dev/null
+
+# OSC 8 makes these clickable in terminals that support it (iTerm2, Terminal.app, Ghostty, ...).
+hyperlink() {
+  printf '\e]8;;%s\e\\%s\e]8;;\e\\' "$1" "$2"
+}
+
+bold=$(tput bold 2>/dev/null || true)
+green=$(tput setaf 2 2>/dev/null || true)
+reset=$(tput sgr0 2>/dev/null || true)
+
+echo
+echo "${green}✔${reset} Copied to clipboard — paste into Slack:"
+echo
+echo "${bold}Can I get a review on $(hyperlink "$repo_url" "$repo"):${reset}"
+echo "$(hyperlink "$url" "$title (#$num)")"
+echo
