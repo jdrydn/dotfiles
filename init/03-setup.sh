@@ -17,6 +17,8 @@ fi
 
 # gitconfig
 symlink_file "$DOTFILES_DIR/config/git/gitconfig" "$HOME/.gitconfig"
+# global gitignore (git's default location)
+symlink_file "$DOTFILES_DIR/config/git/ignore" "$HOME/.config/git/ignore"
 # vimrc
 symlink_file "$DOTFILES_DIR/config/vimrc" "$HOME/.vimrc"
 # mise
