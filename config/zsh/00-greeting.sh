@@ -8,12 +8,10 @@ GREETINGS=(
 
   # Marvel's Spider-Man (2018)
   "With great power, comes great responsibility."
-  "Writing's not my thing. I'm more of a... 'punching things until they stop being bad' kind of guy."
   "Nice entrance. Solid 8 out of 10."
 
   # Marvel's Spider-Man 2 (2023)
   "Be greater. Together."
-  "Ok, before we get down to business, there's something I have to tell you... I'm fresh out of honey!"
   "I'm the hero here, not you."
 
   # The Legend of Zelda (1986)
@@ -26,12 +24,9 @@ GREETINGS=(
   # The Legend of Zelda: Tears of the Kingdom (2023)
   "Link... you are our light."
   "You must... Link! Protect them all!"
-  "Do not look away. You witness a king's revival, and the birth of his new world."
-  "This world should be shrouded in darkness. Not bathed in insufferable light."
 
   # The Legend of Zelda: The Wind Waker (2002)
   "The wind... it is... blowing."
-  "I want you to live for the future."
 
   # Dishonored (2012)
   "Revenge solves everything."
